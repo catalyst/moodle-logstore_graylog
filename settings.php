@@ -60,6 +60,12 @@ if ($hassiteconfig) {
         new lang_string('tcptimeout_desc', 'logstore_graylog'), '30', PARAM_INT
     ));
 
+    $settings->add(new admin_setting_configcheckbox(
+        'logstore_graylog/logguestuser',
+        new lang_string('logguestuser', 'logstore_graylog'),
+        new lang_string('logguestuser_desc', 'logstore_graylog'), 0
+    ));
+
     $settings->add(new admin_setting_configselect(
         'logstore_graylog/mode',
         new lang_string('mode', 'logstore_graylog'),

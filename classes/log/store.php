@@ -40,19 +40,27 @@ class store implements \tool_log\log\writer {
     public function __construct(\tool_log\log\manager $manager) {
         $this->helper_setup($manager);
     }
+
     /**
      * Should the event be ignored (== not logged)?
      * @param \core\event\base $event
      * @return bool
      */
-
     protected function is_event_ignored(\core\event\base $event) {
-        if ((!CLI_SCRIPT || PHPUNIT_TEST)) {
-            // Always log inside CLI scripts because we do not login there.
-            if (!isloggedin() || isguestuser()) {
-                return true;
-            }
+        // Always log inside CLI scripts because we do not login there.
+        if (CLI_SCRIPT || PHPUNIT_TEST) {
+            return false;
         }
+
+        // Don't check user logged in if we know we want to log guests
+        if (get_config('logstore_graylog', 'logguestuser')) {
+            return false;
+        }
+
+        if (!isloggedin() || isguestuser()) {
+            return true;
+        }
+
         return false;
     }
 
