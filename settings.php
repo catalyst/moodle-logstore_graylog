@@ -66,6 +66,17 @@ if ($hassiteconfig) {
         new lang_string('logguestuser_desc', 'logstore_graylog'), 0
     ));
 
+    $alleventnames = array_keys(report_eventlist_list_generator::get_all_events_list(false));
+    $alleventnames = array_combine($alleventnames, $alleventnames);
+
+    $settings->add(new admin_setting_configmulticheckbox(
+        'logstore_graylog/allowevents',
+        new lang_string('allowevents', 'logstore_graylog'),
+        new lang_string('allowevents_desc', 'logstore_graylog'),
+        array(),
+        $alleventnames,
+    ));
+
     $settings->add(new admin_setting_configselect(
         'logstore_graylog/mode',
         new lang_string('mode', 'logstore_graylog'),

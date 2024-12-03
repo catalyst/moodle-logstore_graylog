@@ -52,12 +52,15 @@ class store implements \tool_log\log\writer {
             return false;
         }
 
-        // Don't check user logged in if we know we want to log guests
-        if (get_config('logstore_graylog', 'logguestuser')) {
-            return false;
+        // Don't log guests, unless explicitly set to
+        if ((!isloggedin() || isguestuser())) {
+            return !get_config('logstore_graylog', 'logguestuser');
         }
 
-        if (!isloggedin() || isguestuser()) {
+        // If event is not in the list of allowed events, ignore
+        $allowedevcfg = get_config('logstore_graylog', 'allowevents');
+        $allowedevents = str_getcsv($allowedevcfg, escape: "");
+        if(!in_array($event->eventname, $allowedevents)) {
             return true;
         }
 
