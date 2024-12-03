@@ -1,5 +1,5 @@
 {
     "require": {
-        "graylog2/gelf-php": "^1.5"
+        "graylog2/gelf-php": "^2.0.1"
     }
 }
