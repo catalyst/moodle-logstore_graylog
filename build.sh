@@ -4,7 +4,7 @@
 
 # Creates a folder to zip.
 rm -f graylog.zip
-php -r "readfile('https://getcomposer.org/installer');" | php
+# php -r "readfile('https://getcomposer.org/installer');" | php
 php composer.phar install --no-interaction --no-dev
 cp -r . ../moodle_logstore_build
 
@@ -22,8 +22,3 @@ find ../moodle_logstore_build -type f -name '*.sh' | xargs rm -rf
 mv ../moodle_logstore_build graylog
 zip -r graylog.zip graylog -x "graylog/.git/**/*"
 rm -rf graylog
-
-# Updates Github.
-git add graylog.zip
-git commit -m "Build zip file"
-git push
